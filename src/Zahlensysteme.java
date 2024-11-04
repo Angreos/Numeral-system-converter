@@ -238,7 +238,7 @@ public abstract class Zahlensysteme {
         return zahl.split(",");
     }
 
-    public static String convertKommaToBaseFromTen(String zahl, int base, int baseTo){
+    public static String convertDecimalNumber(String zahl, int base, int baseTo){
         String[] split = KommaSplit(zahl);
         String vorKomma = split[0];
         String nachKomma = split[1];
