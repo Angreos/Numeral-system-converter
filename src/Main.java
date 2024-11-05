@@ -5,11 +5,12 @@ public class Main {
     public static void main(String[] args) {
         // Description
         System.out.println("""
-                This application was made by Andreas Schmidt.
+                This application was made by Andreas.
                 https://github.com/Angreos
                 
-                With this you can convert numbers from one numeral system to another.
-                For example, you can convert 1110 in binary to decimal which would give you 14.
+                With this you can convert numbers from one numeral system to different one.
+                For example, you can convert 1110 from binary to base 10 which would give you 14.
+                Works with decimal numbers.
                 """);
 
         // starts the Application
