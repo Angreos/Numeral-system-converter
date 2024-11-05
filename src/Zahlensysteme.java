@@ -171,25 +171,6 @@ public abstract class Zahlensysteme {
         return convertFromTen("" + zahl, base, withSteps);
     }
 
-    private static boolean isPowerOfTwo(int base, int baseTo){
-        String baseBinary = Integer.toBinaryString(base);
-        String baseToBinary = Integer.toBinaryString(baseTo);
-        baseBinary = baseBinary.replaceAll("0", "");
-        baseToBinary = baseToBinary.replaceAll("0", "");
-        return baseBinary.length() == 1 && baseToBinary.length() == 1;
-    }
-    public static boolean isValidNumberInBase(String zahl, int base){
-
-        for(char c : zahl.toCharArray()){
-            char newChar = Character.forDigit(Character.getNumericValue(c),base);
-            boolean isPartOfSystem =  Character.isDigit(newChar) || Character.isLetter(newChar);
-            if(!isPartOfSystem){return false;}
-        }
-
-        return true;
-    }
-
-
     private static String groupingConvert(String zahl, int base, int baseTo, boolean withSteps){
         char[] charArray = zahl.toCharArray();
         int a = 0;
@@ -220,22 +201,6 @@ public abstract class Zahlensysteme {
             result = start+"\n"+steps+"\n";
         }
         return result;
-    }
-    private static String stripFirstZeros(String zahl){
-        char[] zahlArray = zahl.toCharArray();
-        boolean foundNumber = false;
-        zahl = "";
-        for(char c : zahlArray){
-            if(!foundNumber && c == '0'){continue;}
-            else {
-                foundNumber= true;
-                zahl += c;
-            }
-        }
-        return zahl;
-    }
-    private static String[] KommaSplit(String zahl){
-        return zahl.split(",");
     }
 
     public static String convertDecimalNumber(String zahl, int base, int baseTo){
