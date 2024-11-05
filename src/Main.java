@@ -13,6 +13,12 @@ public class Main {
                 """);
 
         // starts the Application
-        ConverterApp.run();
+
+        //ConverterApp.run();
+
+        String number = "1111.0001";
+        String numberConverted = Converter.convertToBase10(number, 2, true);
+        System.out.println(numberConverted);
+
     }
 }
