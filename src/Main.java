@@ -17,8 +17,8 @@ public class Main {
 
         //ConverterApp.run();
 
-        String number = "1111.0001";
-        String numberConverted = Converter.convertToBase10(number, 2, true);
+        String number = "F.1";
+        String numberConverted = Converter.convertToBase10(number, 16, true);
         System.out.println(numberConverted);
 
     }
