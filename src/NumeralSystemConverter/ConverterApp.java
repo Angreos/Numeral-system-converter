@@ -11,6 +11,9 @@ public abstract class ConverterApp {
 
             System.out.println("What number do you want to convert?");
             String zahl = scanner.next();
+            if(zahl.equalsIgnoreCase("q")){
+                break;
+            }
             System.out.println("In what numeral system is the number(base)?");
             int basis = scanner.nextInt();
             System.out.println("To what numeral system do you want to convert(base)?");
@@ -18,9 +21,9 @@ public abstract class ConverterApp {
             boolean steps;
             switch (loopAskIfWithSteps(scanner)){
                 case 0:
-                    steps = false;break;
+                    System.out.println(Converter.convertToBase10(zahl, basis));break;
                 case 1:
-                    steps = true;break;
+                    System.out.println(Converter.convertToBase10(zahl, basis, true));break;
                 case -1:
                     System.out.println("Quitting..");
                     break;
@@ -32,7 +35,6 @@ public abstract class ConverterApp {
             // converter logic here
 
             // repeat
-            break;
         }while (true);
         scanner.close();
         System.out.println("Converter app: exiting");

@@ -15,7 +15,8 @@ public class Main {
 
         // starts the Application
 
-        //ConverterApp.run();
+        // ConverterApp.run();
+
 
         String number = "F.1";
         String numberConverted = Converter.convertToBase10(number, 16, true);
