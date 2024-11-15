@@ -57,6 +57,7 @@ public abstract class Converter {
         return number;
     }
 
+    // Convert to base 10
     public static String convertToBase10(String number, int base, boolean withSteps){
         number = stripFirstZeros(number);
         if(!isPartOfNumeralSystem(number, base)){return "ERROR";}
@@ -195,4 +196,94 @@ public abstract class Converter {
     private static Conversion convertToBase10PostComma(String number, int base){
         return convertToBase10PostComma(number, base, false);
     }
+
+    // Convert from base 10
+    public static String convertFromBase10(String number, int base, boolean withSteps){
+        String result = "";
+        String steps = "";
+        number = stripFirstZeros(number);
+        System.out.println(number);
+        String[] splitNumber = number.split("\\.");
+        if(splitNumber.length > 2){return "Number is Invalid";}
+        int numPreComma = Integer.parseInt(splitNumber[0]);
+
+        if (splitNumber.length == 2){
+            double numPostComma = Double.parseDouble(splitNumber[1]);
+            numPostComma = numPostComma/Math.pow(10, ((int)numPostComma+"").length());
+            Conversion preComma = convertFromBase10PreComma(numPreComma, base, withSteps);
+            Conversion postComma = convertFromBase10PostComma(numPostComma, base, withSteps);
+
+            steps = steps + preComma.getSteps() + "\n";
+            steps = steps + postComma.getSteps() + "\n";
+            result = preComma.getResult() + "." +(postComma.getResult().split("\\.")[1]);
+        } else if (splitNumber.length == 1){
+            Conversion preComma = convertFromBase10PreComma(numPreComma, base, withSteps);
+            result = preComma.getResult();
+            steps = preComma.getSteps();
+        }
+
+        String resultText = number+"(10) -> "+result+"("+base+")";
+        return withSteps ? steps + "\n" + resultText : result;
+    }
+    public static String convertFromBase10(String number, int base){
+        return convertFromBase10(number, base, false);
+    }
+    private static Conversion convertFromBase10PreComma(int number, int base, boolean withSteps){
+        StringBuilder result = new StringBuilder();
+        StringBuilder steps = new StringBuilder();
+        while(number != 0)
+        {
+            int devisionRounded = number/base;
+            int mod = number%base;
+            if(withSteps){
+                steps.append(number).append("/").append(base).append(" = ").append(devisionRounded)
+                        .append("\t\t|\t")
+                        .append(number).append(" mod(%) ").append(base).append(" = ").append(mod);
+                if(mod > 9){
+                    char characterInBase = Character.forDigit(mod, base);
+                    steps.append(" -> ").append(Character.toUpperCase(characterInBase));
+                }
+                steps.append("\n");
+            }
+            number = devisionRounded;
+            result.append(mod);
+        }
+        result.reverse();
+        if(result.isEmpty()){
+            result.append("0");
+        }
+        return withSteps ? new Conversion(result.toString(), steps.toString()) : new Conversion(result.toString(), null);
+    }
+
+    private static Conversion convertFromBase10PostComma(double numberPostComma, int base, boolean withSteps){
+        StringBuilder result = new StringBuilder();
+        StringBuilder steps = new StringBuilder();
+
+        while(numberPostComma != 0.0){
+            double baseMultipliedNumber = numberPostComma*base;
+            int preCommaNumber = (int)baseMultipliedNumber;
+            double postCommaNumber = (baseMultipliedNumber-(int)baseMultipliedNumber);
+            char numberCharacter = Character.forDigit(preCommaNumber, base);
+            numberCharacter = Character.toUpperCase(numberCharacter);
+
+            if(withSteps){
+                String coloredNumber = Colors.RED+preCommaNumber+Colors.RESET+"."+((postCommaNumber+"").split("\\.")[1]);
+                steps.append(numberPostComma).append(" * ").append(base).append(" = ").append(coloredNumber);
+                if(preCommaNumber > 9){
+                    steps.append(" -> ").append(Colors.RED).append(numberCharacter).append(Colors.RESET);
+                }
+                steps.append("\n");
+            }
+            result.append(numberCharacter);
+            numberPostComma = postCommaNumber;
+        }
+        String finalResult = result.toString();
+        if(finalResult.isEmpty()){finalResult = "0";}
+        finalResult = "0."+finalResult;
+
+        return withSteps ? new Conversion(finalResult, steps.toString()) : new Conversion(finalResult, null);
+    }
+
+
+
 }

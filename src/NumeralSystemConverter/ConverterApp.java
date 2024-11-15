@@ -1,6 +1,6 @@
 package NumeralSystemConverter;
 
-import java.util.Objects;
+import java.awt.*;
 import java.util.Scanner;
 
 public abstract class ConverterApp {
@@ -14,16 +14,25 @@ public abstract class ConverterApp {
             if(zahl.equalsIgnoreCase("q")){
                 break;
             }
-            System.out.println("In what numeral system is the number(base)?");
-            int basis = scanner.nextInt();
-            System.out.println("To what numeral system do you want to convert(base)?");
-            int basisTo = scanner.nextInt();
-            boolean steps;
+            System.out.println(Colors.BLACK_BACKGROUND_BRIGHT + "In what numeral system is the number(base)?"+Colors.RESET);
+            int base = scanner.nextInt();
+            System.out.println(Colors.BLACK_BACKGROUND_BRIGHT + "To what numeral system do you want to convert(base)?"+Colors.RESET);
+            int baseTo = scanner.nextInt();
             switch (loopAskIfWithSteps(scanner)){
                 case 0:
-                    System.out.println(Converter.convertToBase10(zahl, basis));break;
+                    if(baseTo == 10){
+                        System.out.println(Converter.convertToBase10(zahl, base));
+                    }else if(base == 10){
+                        System.out.println(Converter.convertFromBase10(zahl, baseTo));
+                    }
+                    break;
                 case 1:
-                    System.out.println(Converter.convertToBase10(zahl, basis, true));break;
+                    if(baseTo == 10){
+                        System.out.println(Converter.convertToBase10(zahl, base, true));
+                    }else if(base == 10){
+                        System.out.println(Converter.convertFromBase10(zahl, baseTo, true));
+                    }
+                    break;
                 case -1:
                     System.out.println("Quitting..");
                     break;
@@ -41,11 +50,15 @@ public abstract class ConverterApp {
     }// end
 
     private static byte loopAskIfWithSteps(Scanner scanner){
+        String yesText = Colors.GREEN+"'y' = yes"+Colors.RESET;
+        String noText = Colors.RED+"'n' = no"+Colors.RESET;
+        String quitText = Colors.RED_BACKGROUND_BRIGHT+"'quit' to quit"+Colors.RESET;
+
         String withSteps;
         boolean isYes;
         boolean isNo;
         do {
-            System.out.println("Convert with steps? \n('y' = yes | 'n' = no | 'quit' to quit)");
+            System.out.println("Convert with steps? \n("+ yesText +" | "+ noText +" | "+ quitText +" )");
             withSteps = scanner.next();
             isYes = withSteps.strip().equalsIgnoreCase("y");
             isNo = withSteps.strip().equalsIgnoreCase("n");
